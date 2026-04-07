@@ -5,37 +5,92 @@ function showTab(id) {
 
 function toggle(id) {
   document.getElementById(id).classList.toggle("hidden");
+
+  if (id == "exerciseList") {
+    const memberId = window.location.pathname.split("/").pop();
+
+    fetch(`http://127.0.0.1:5000/giveInfo/${memberId}/exerciseList`)
+      .then((res) => res.json())
+      .then((data) => {
+        const list = document.getElementById("exerciseList");
+        list.innerHTML = "";
+
+        const exercises = data[0].exercises.split(",");
+
+        exercises.forEach((ex) => {
+          const li = document.createElement("li");
+          li.textContent = ex.trim();
+          list.appendChild(li);
+        });
+      });
+  } else if (id == "historyList") {
+    const memberId = window.location.pathname.split("/").pop();
+
+    fetch(`http://127.0.0.1:5000/giveInfo/${memberId}/historyList`)
+      .then((res) => res.json())
+      .then((data) => {
+        const list = document.getElementById("historyList");
+        list.innerHTML = "";
+
+        for (ex in data) {
+          const day = data[ex]["date"].slice(5, 16);
+          const li = document.createElement("li");
+          li.textContent = day;
+          list.appendChild(li);
+        }
+      });
+  } else if (id == "paymentList") {
+    const memberId = window.location.pathname.split("/").pop();
+
+    fetch(`http://127.0.0.1:5000/giveInfo/${memberId}/paymentList`)
+      .then((res) => res.json())
+      .then((data) => {
+        const list = document.getElementById("paymentList");
+        list.innerHTML = "";
+
+        for (ex in data) {
+          const amt = data[ex]["amount"];
+          const day = data[ex]["date"].slice(5, 16);
+          const li = document.createElement("li");
+          li.textContent = `₹${amt} ------ ${day}`;
+          list.appendChild(li);
+        }
+      });
+  }
 }
 
-let count = 0;
-let lastMarked = null;
+function markPresent() {
+  const memberId = window.location.pathname.split("/").pop();
+  // let todayDate = new Date().toDateString();
+  const rawDate = new Date();
+  const todayDate = rawDate.toLocaleDateString('en-CA');
 
-function mark(status) {
-  let today = new Date().toDateString();
-
-  if (lastMarked === today) {
-    alert("Already marked today");
-    return;
-  }
-
-  lastMarked = today;
-
-  let li = document.createElement("li");
-  li.textContent = today + " - " + status;
-  document.getElementById("history").appendChild(li);
-
-  if (status === "Present") {
-    count++;
-    document.getElementById("days").innerText = count;
-  }
+  data = {
+    date: todayDate,
+  };
+  fetch(`http://127.0.0.1:5000/markPresent/${memberId}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      alert(data.message);
+      if (data.message === "Already marked") {
+        return;
+      } else {
+        let li = document.createElement("li");
+        li.textContent = "Today";
+        document.getElementById("historyList").appendChild(li);
+        document.getElementById("days").innerText = Number(document.getElementById("days").innerText) + 1;
+      }
+    });
 
   document.getElementById("presentBtn").disabled = true;
-  document.getElementById("absentBtn").disabled = true;
-
   setTimeout(() => {
     document.getElementById("presentBtn").disabled = false;
-    document.getElementById("absentBtn").disabled = false;
-    lastMarked = null;
   }, 86400000);
 }
 
@@ -45,6 +100,8 @@ function editProfile() {
 }
 
 function saveProfile() {
+  const memberId = window.location.pathname.split("/").pop();
+
   document.getElementById("name").innerText =
     document.getElementById("nameInput").value;
 
@@ -56,16 +113,34 @@ function saveProfile() {
 
   document.getElementById("profileView").classList.remove("hidden");
   document.getElementById("profileEdit").classList.add("hidden");
+
+  const data = {
+    name: document.getElementById("name").innerText,
+    phone: document.getElementById("phone").innerText,
+    age: document.getElementById("age").innerText,
+  };
+
+  fetch(`http://127.0.0.1:5000/updateProfile/${memberId}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      alert("Profile Updated ✅");
+    });
 }
 
+// LOAD DOCUMENT ON BOARDING.
 
 document.addEventListener("DOMContentLoaded", function () {
-
   const memberId = window.location.pathname.split("/").pop();
 
   fetch(`http://127.0.0.1:5000/givedetail/${memberId}`)
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       document.getElementById("name").innerHTML = data[0];
       document.getElementById("phone").innerHTML = data[1];
       document.getElementById("age").innerHTML = data[2];
@@ -73,9 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("plan").innerHTML = data[4];
       document.getElementById("days").innerHTML = data[5];
     });
-
 });
-
 
 // document.addEventListener("DOMContentLoaded", function () {
 //   console.log("page");

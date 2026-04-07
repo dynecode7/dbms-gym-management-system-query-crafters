@@ -43,9 +43,7 @@
           <div class="card2">
             <h3 onclick="toggle('exerciseList')">Today's Exercises&nbsp; &nbsp;▼ </h3>
             <ul id="exerciseList" class="hidden">
-              <li>Bench Press</li>
-              <li>Squats</li>
-              <li>Deadlift</li>
+              
             </ul>
           </div>
         </section>
@@ -60,12 +58,12 @@
           </div>
 
           <div class="card2">
-            <h3 onclick="toggle('history')">History&nbsp; &nbsp;▼</h3>
-            <ul id="history" class="hidden"></ul>
+            <h3 onclick="toggle('historyList')">History&nbsp; &nbsp;▼</h3>
+            <ul id="historyList" class="hidden"></ul>
           </div>
 
-          <button id="presentBtn" onclick="mark('Present')">Present</button>
-          <button id="absentBtn" onclick="mark('Absent')">Absent</button>
+          <button id="presentBtn" onclick="markPresent()">Mark Present Today</button>
+          <!-- <button id="absentBtn" onclick="mark('Absent')">Absent</button> -->
         </section>
 
         <!-- PROFILE -->
@@ -87,9 +85,9 @@
           </div>
            
           <div class="card2">
-            <h3 onclick="toggle('payments')">Payments ▼</h3>
-            <ul id="payments" class="hidden">
-              <li>₹2000 - Paid</li>
+            <h3 onclick="toggle('paymentList')">Payments ▼</h3>
+            <ul id="paymentList" class="hidden">
+              
             </ul>
           </div>
            <button onclick="editProfile()">Edit Profile</button>
