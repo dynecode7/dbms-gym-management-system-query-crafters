@@ -1,0 +1,122 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  box-sizing: border-box;
+  background: #0f232a;
+  color: #e2e8f0;
+  font-size: 1.2rem;
+}
+
+.container {
+  display: flex;
+}
+
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  background: #021417;
+  padding: 2rem;
+}
+
+.sidebar h2 {
+  padding: 12px;
+  color: #94dfff;
+  font-size: 2.5rem;
+}
+
+.sidebar ul {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar li {
+  font-weight: 500;
+  height: 30px;
+  padding: 12px;
+  margin: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.sidebar li:hover {
+  background: #1e293b;
+}
+
+.content {
+  flex: 1;
+  padding: 30px;
+}
+
+.card {
+  height: 15vh;
+  cursor: pointer;
+  background: #020617;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
+  padding-left: 50px;
+  display: flex;
+  align-items:center;
+  gap: 20px;
+}
+.card2 {
+  height: 300px;
+  cursor: pointer;
+  background: #020617;
+  padding-left: 50px;
+  padding-top: 10px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
+}
+
+
+#attendcard #days{
+  font-size: 3rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+button {
+  background: #00ff80;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: rgb(15, 36, 18);
+  font-weight: bold;
+  margin: 10px;
+  font-size: 1.2rem;
+}
+
+button:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
+.hidden {
+  display: none;
+}
+
+input {
+  padding: 8px;
+  margin: 5px;
+  border-radius: 6px;
+  border: none;
+}
+
+#days{
+  font-size: 2.5rem;
+}
+
+.plandetail{
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-right: 50px;
+}

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Auth UI</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='authStyle.css') }}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- SIGNUP -->
+      <div id="signup" class="card">
+        <h2>Create Account</h2>
+
+        <input type="text" placeholder="Full Name" id="name" />
+        <input type="text" placeholder="Age" id="age"/>
+
+        <select id="gender">
+          <option disabled selected>Gender</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+
+        <input type="text" placeholder="Phone Number" id="phone"/>
+        <input type="password" placeholder="Create Password" id="password" />
+
+        <button onclick="signup()">Sign Up</button>
+
+        <p class="toggle" onclick="showLogin()">
+          Already have an account? <span>Login</span>
+        </p>
+      </div>
+
+      <!-- LOGIN -->
+      <div id="login" class="card hidden">
+        <h2>Welcome Back</h2>
+
+        <input type="text" placeholder="Phone Number" id="login_phone" />
+        <input type="password" placeholder="Password" id="login_password"/>
+
+        <button onclick="login()">Login</button>
+
+        <p class="toggle" onclick="showSignup()">
+          Don’t have an account? <span>Sign Up</span>
+        </p>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='auth.js') }}"> </script>
+  </body>
+</html>

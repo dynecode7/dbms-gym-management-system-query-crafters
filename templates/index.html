@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gym Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <aside class="sidebar">
+        <h2>ENVGym</h2>
+        <ul>
+          <li onclick="showTab('home')">Home</li>
+          <li onclick="showTab('attendance')">Attendance</li>
+          <li onclick="showTab('profile')">My Profile</li>
+        </ul>
+      </aside>
+
+      <main class="content">
+        <!-- HOME -->
+        <section id="home" class="tab">
+          <h1>Workout Plan</h1>
+
+          <div class="card">
+            <div class="plandetail">
+                <p><b>Trainer :</b>
+                </p>
+                <p  id="trainer">John </p>
+            </div>
+            <div class="plandetail">
+                <p><b>Plan :</b></p>
+                <p id="plan">Quaterly</p>
+            </div>
+            
+            
+          </div>
+
+          <div class="card2">
+            <h3 onclick="toggle('exerciseList')">Today's Exercises&nbsp; &nbsp;▼ </h3>
+            <ul id="exerciseList" class="hidden">
+              <li>Bench Press</li>
+              <li>Squats</li>
+              <li>Deadlift</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ATTENDANCE -->
+        <section id="attendance" class="tab hidden">
+          <h1>Attendance</h1>
+
+          <div class="card" id="attendcard">
+            <p id="days">0</p>
+            <p>days</p>
+          </div>
+
+          <div class="card2">
+            <h3 onclick="toggle('history')">History&nbsp; &nbsp;▼</h3>
+            <ul id="history" class="hidden"></ul>
+          </div>
+
+          <button id="presentBtn" onclick="mark('Present')">Present</button>
+          <button id="absentBtn" onclick="mark('Absent')">Absent</button>
+        </section>
+
+        <!-- PROFILE -->
+        <section id="profile" class="tab hidden">
+          <h1>My Profile</h1>
+
+          <div class="card" id="profileView">
+            <p><b>Name:</b> <span id="name">Alex</span></p>
+            <p><b>Phone:</b> <span id="phone">1234567890</span></p>
+            <p><b>Age:</b> <span id="age">22</span></p>
+          </div>
+          
+          <div class="card hidden" id="profileEdit">
+            <input id="nameInput" placeholder="Name" />
+            <input id="phoneInput" placeholder="Phone" />
+            <input id="ageInput" placeholder="Age" />
+            <br />
+            <button onclick="saveProfile()">Save</button>
+          </div>
+           
+          <div class="card2">
+            <h3 onclick="toggle('payments')">Payments ▼</h3>
+            <ul id="payments" class="hidden">
+              <li>₹2000 - Paid</li>
+            </ul>
+          </div>
+           <button onclick="editProfile()">Edit Profile</button>
+        </section>
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
