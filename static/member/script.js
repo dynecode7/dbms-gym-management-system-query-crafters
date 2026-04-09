@@ -9,19 +9,30 @@ function toggle(id) {
   if (id == "exerciseList") {
     const memberId = window.location.pathname.split("/").pop();
 
+    const rawDate = new Date();
+    const todayDate = rawDate.toLocaleDateString('en-CA');
+
     fetch(`http://127.0.0.1:5000/giveInfo/${memberId}/exerciseList`)
       .then((res) => res.json())
       .then((data) => {
         const list = document.getElementById("exerciseList");
         list.innerHTML = "";
+        
+        for(plan of data){
 
-        const exercises = data[0].exercises.split(",");
-
-        exercises.forEach((ex) => {
           const li = document.createElement("li");
-          li.textContent = ex.trim();
+          let content = `${plan.exercises} -------- ${plan.date.slice(5,16)}`;
+
+          let d = new Date(plan.date);
+          const formatted = d.toISOString().split('T')[0];
+
+          if(formatted==todayDate){
+            content+="  ( Today )";
+          }
+          li.textContent = content;
           list.appendChild(li);
-        });
+        }
+        
       });
   } else if (id == "historyList") {
     const memberId = window.location.pathname.split("/").pop();
@@ -133,7 +144,7 @@ function saveProfile() {
     });
 }
 
-// LOAD DOCUMENT ON BOARDING.
+// LOAD DOCUMENT ON BOARDING WHEN MEMBER BOARDS AFTER LOGIN.
 
 document.addEventListener("DOMContentLoaded", function () {
   const memberId = window.location.pathname.split("/").pop();
@@ -141,6 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch(`http://127.0.0.1:5000/givedetail/${memberId}`)
     .then((res) => res.json())
     .then((data) => {
+      document.getElementById("welcomeMsg").innerHTML = `Welcome ${data[0]},`;
       document.getElementById("name").innerHTML = data[0];
       document.getElementById("phone").innerHTML = data[1];
       document.getElementById("age").innerHTML = data[2];
@@ -149,6 +161,11 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("days").innerHTML = data[5];
     });
 });
+
+
+function logout() {
+    window.location.href = "/";
+}
 
 // document.addEventListener("DOMContentLoaded", function () {
 //   console.log("page");

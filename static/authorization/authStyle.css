@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 body {
@@ -44,8 +44,9 @@ h2 {
 /* Inputs */
 input, select {
   width: 100%;
+  height: 3.5rem;
   padding: 12px;
-  margin: 10px 0;
+  margin: 0.8rem 0;
   border-radius: 8px;
   border: 1px solid #334155;
   background: #0f172a;
@@ -62,8 +63,9 @@ input:focus, select:focus {
 /* Button */
 button {
   width: 100%;
+  height: 3rem;
   padding: 12px;
-  margin-top: 15px;
+  margin-top: 1rem;
   border-radius: 8px;
   border: none;
   background: #38bdf8;
@@ -79,16 +81,20 @@ button:hover {
 }
 
 /* Toggle text */
-.toggle {
+.toggleT, .toggleM {
   text-align: center;
-  margin-top: 15px;
+  margin-top: 1.5rem;
   font-size: 14px;
   color: #94a3b8;
   cursor: pointer;
 }
 
-.toggle span {
+.toggleM span {
   color: #38bdf8;
+  font-weight: bold;
+}
+.toggleT span {
+  color: #dc9e0d;
   font-weight: bold;
 }
 
@@ -102,4 +108,28 @@ button:hover {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+#signUpTrainer, #loginTrainer{
+  background: #2A1A12;
+}
+
+.selectInput{
+  border: 1px solid #6c603a;
+  background: #3a2d18;
+  color: #e2e8f0;
+}
+
+.selectInput:focus {
+  outline: none;
+  border-color: #f8db38;
+  box-shadow: 0 0 8px #FFA559
+;
+}
+.trainerButton{
+  background-color: #FF8C42;
+}
+.TrainerBody{
+  /* background: linear-gradient(135deg, #2a260f, #171402); */
+  background: linear-gradient(135deg, #1A0F0A, #171402);
 }

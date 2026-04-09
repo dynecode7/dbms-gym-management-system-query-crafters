@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Auth UI</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='authorization/authStyle.css') }}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- SIGNUP -->
+      <div id="signup" class="card">
+        <h2>Create Member Account</h2>
+
+        <input type="text" placeholder="Full Name" id="name" />
+        <input type="text" placeholder="Age" id="age"/>
+
+        <select id="gender">
+          <option disabled selected>Gender</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+
+        <input type="text" placeholder="Phone Number" id="phone"/>
+        <input type="password" placeholder="Create Password" id="password" />
+
+        <button onclick="signup()">Sign Up</button>
+
+        <p class="toggleM" onclick="showLogin()">
+          Already have an account? <span>Login</span>
+        </p>
+        <p class="toggleT" onclick="showTrainerSignup()">
+          Don’t have an account?<span id = "signupTrainer" > Create Trainer Account</span>
+        </p>
+      </div>
+
+      <!-- LOGIN -->
+      <div id="login" class="card">
+        <h2>Welcome Back Member</h2>
+
+        <input type="text" placeholder="Phone Number" id="login_phone" />
+        <input type="password" placeholder="Password" id="login_password"/>
+
+        <button onclick="login()">Login</button>
+
+        <p class="toggleM" onclick="showSignup()">
+          Don’t have an account? <span>Sign Up</span>
+        </p>
+        <p class="toggleT" onclick="showTrainerLogin()">
+          Or <span id = "loginTrainerText">Login as Trainer</span>
+        </p>
+        
+      </div>
+
+      <!-- TRAINER SIGNUP -->
+      <div id="signUpTrainer" class="card">
+        <h2>Create Trainer Account</h2>
+
+        <input type="text" placeholder="Full Name" id="trainer_name" class="selectInput" />
+        <input type="text" placeholder="Enter Specialization" id="trainer_spec" class="selectInput"/>
+        <input type="text" placeholder="Phone Number" id="trainer_phone" class="selectInput"/>
+        <input type="password" placeholder="Create Password" id="trainer_password" class="selectInput" />
+        
+        <button onclick="Trainersignup()" class="trainerButton">Sign Up</button>
+
+        <p class="toggleT" onclick="showTrainerLogin()">
+          Already have an account? <span>Login</span>
+        </p>
+        <p class="toggleM" onclick="showLogin()">
+          Or <span>Login as Member</span>
+        </p>
+      </div>
+
+      <!-- TRAINER LOGIN -->
+      <div id="loginTrainer" class="card">
+        <h2>Welcome Back Trainer</h2>
+
+        <input type="text" placeholder="Phone Number" id="trainer_login_phone" class="selectInput" />
+        <input type="password" placeholder="Password" id="trainer_login_password" class="selectInput"/>
+
+        <button onclick="Trainerlogin()" class="trainerButton">Login</button>
+
+        <p class="toggleT" onclick="showTrainerSignup()">
+          Don’t have an account? <span id = "signupTrainerText" > Create Trainer Account</span>
+        </p>
+        
+        <p class="toggleM" onclick="showLogin()">
+          Or <span>Login as Member</span>
+        </p>
+        
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='authorization/auth.js') }}"> </script>
+  </body>
+</html>

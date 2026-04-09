@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <meta charset="UTF-8" />
+    <title>Gym Trainer Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='trainer/style.css') }}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <h2>ENVGym</h2>
+        <ul>
+          <li onclick="showPage('home')">Home</li>
+          <li onclick="showPage('profile')">My Profile</li>
+        </ul>
+      </div>
+
+      <!-- Main -->
+        <div class="main">
+            <!-- HOME -->
+            <div id="home" class="page active">
+                <div id="welcomeUser">
+                <h1>Your Trainees,</h1>
+                <h1 id="welcomeMsg"></h1>
+                </div>
+
+                <div id="cardTemplate" class="trainee-card hidden">
+                    <div class="memberDetails">
+                        <h3 class="name"></h3>
+                        <p class="age"></p>
+                        <p class="plan"></p>
+                    </div>
+                    <button id='addExerciseBtn' class='addExerciseBtn' onclick="openModal(this)">+ Add Exercise</button>
+                </div>
+
+                
+            </div>
+            <!-- PROFILE -->
+            <div id="profile" class="page">
+            <h1>My Profile</h1>
+
+            <div class="profile-card">
+                <h1 id="trainer_name">Ravi Kumar</h1>
+                <p id="specs">Specialization: <b>Strength Training </b></p>
+            </div>
+
+            <div class="earnings-card">
+                <p>Money Earned</p>
+                <h2 id="money">₹ 45,000</h2>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        
+      </div>
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <h2>Select Exercises</h2>
+
+        <div class="exercise-list" id="List">
+          <button class="exercise">Chest</button>
+          <button class="exercise">Back</button>
+          <button class="exercise">Legs</button>
+          <button class="exercise">Shoulders</button>
+        </div>
+
+        <button class="assign-btn" id="assign-btn" onclick="assignWorkout()">Assign</button>
+        <span class="close" onclick="closeModal()">✖</span>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='trainer/script.js') }}"></script>
+  </body>
+</html>
