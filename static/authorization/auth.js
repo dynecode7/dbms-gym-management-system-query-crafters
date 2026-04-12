@@ -18,24 +18,42 @@ function hideAll() {
 
 function showLogin() {
   hideAll();
+  document.getElementById("gymName").innerText = "ENV GYM";
+  document.getElementById("gymName").classList.remove('gym_trainer');
+  document.getElementById("gymName").style.color = "#38bdf8";
+
   document.getElementById("login").classList.remove("hidden");
   document.querySelector("body").classList.remove('TrainerBody');
 }
 
 function showSignup() {
   hideAll();
+
+  document.getElementById("gymName").classList.remove('gym_trainer');
+  document.getElementById("gymName").innerText = "ENV GYM";
+  document.getElementById("gymName").style.color = "#38bdf8";
+
   document.getElementById("signup").classList.remove("hidden");
   document.querySelector("body").classList.remove('TrainerBody');
 }
 
 function showTrainerLogin() {
   hideAll();
+  
+  document.getElementById("gymName").innerText = "ENV GYM PARTNERS";
+  document.getElementById("gymName").classList.add('gym_trainer');
+  document.getElementById("gymName").style.color = "#ff8c42";
+
   document.getElementById("loginTrainer").classList.remove("hidden");
   document.querySelector("body").classList.add('TrainerBody');
 }
 
 function showTrainerSignup() {
   hideAll();
+  document.getElementById("gymName").classList.add('gym_trainer');
+  document.getElementById("gymName").innerText = "ENV GYM PARTNERS";
+  document.getElementById("gymName").style.color = "#ff8c42";
+
   document.getElementById("signUpTrainer").classList.remove("hidden");
   document.querySelector("body").classList.add('TrainerBody');
 }
@@ -62,7 +80,8 @@ function signup() {
   })
   .then(res => {
     if (res.redirected) {
-      window.location.href = res.url; // go to dashboard
+      window.location.href = res.url; // go to auth page again.
+      alert("Account Created Succesfully! Enter your Credentials to Login");  
     }
   });
 }
@@ -94,6 +113,7 @@ function login() {
 // TRAINER SIGUP AND LOGIN
 
 function Trainersignup() {
+  document.getElementById("gymName").style.color = "#ff8c42";
   const data = {
     name: document.getElementById("trainer_name").value,
     spec: document.getElementById("trainer_spec").value,
@@ -117,6 +137,8 @@ function Trainersignup() {
 }
 
 function Trainerlogin() {
+
+  
   const data = {
     phone: document.getElementById("trainer_login_phone").value,
     password: document.getElementById("trainer_login_password").value

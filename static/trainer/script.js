@@ -95,8 +95,8 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("specs").innerHTML =
         `Specialization In ${data[1]}`;
 
-      
       for (let member of data[2]) {
+        
         const card = template.cloneNode(true); // ✅ clone
 
         card.querySelector(".name").innerText = member.name;
@@ -111,5 +111,6 @@ document.addEventListener("DOMContentLoaded", function () {
         homeSection.appendChild(card);
         
       }
+      document.getElementById("money").innerText = `₹ ${data[3]}`;
     });
 });

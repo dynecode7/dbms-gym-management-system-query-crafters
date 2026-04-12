@@ -1,4 +1,15 @@
+let AU_selectedTrainer = null;
+let AU_selectedPlan = null;
+let AU_selectedPrice = null;
+let trainerID, planID, price;
+let memberId;
+
 function showTab(id) {
+  document.querySelectorAll(".sidebar li").forEach(li => 
+    li.classList.remove("sidebar_li_selected")
+  );
+  document.getElementById(`sidebar_${id}`).classList.add("sidebar_li_selected");
+
   document.querySelectorAll(".tab").forEach((t) => t.classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
 }
@@ -10,29 +21,27 @@ function toggle(id) {
     const memberId = window.location.pathname.split("/").pop();
 
     const rawDate = new Date();
-    const todayDate = rawDate.toLocaleDateString('en-CA');
+    const todayDate = rawDate.toLocaleDateString("en-CA");
 
     fetch(`http://127.0.0.1:5000/giveInfo/${memberId}/exerciseList`)
       .then((res) => res.json())
       .then((data) => {
         const list = document.getElementById("exerciseList");
         list.innerHTML = "";
-        
-        for(plan of data){
 
+        for (plan of data) {
           const li = document.createElement("li");
-          let content = `${plan.exercises} -------- ${plan.date.slice(5,16)}`;
+          let content = `${plan.exercises} -------- ${plan.date.slice(5, 16)}`;
 
           let d = new Date(plan.date);
-          const formatted = d.toISOString().split('T')[0];
+          const formatted = d.toISOString().split("T")[0];
 
-          if(formatted==todayDate){
-            content+="  ( Today )";
+          if (formatted == todayDate) {
+            content += "  ( Today )";
           }
           li.textContent = content;
           list.appendChild(li);
         }
-        
       });
   } else if (id == "historyList") {
     const memberId = window.location.pathname.split("/").pop();
@@ -74,7 +83,7 @@ function markPresent() {
   const memberId = window.location.pathname.split("/").pop();
   // let todayDate = new Date().toDateString();
   const rawDate = new Date();
-  const todayDate = rawDate.toLocaleDateString('en-CA');
+  const todayDate = rawDate.toLocaleDateString("en-CA");
 
   data = {
     date: todayDate,
@@ -95,7 +104,8 @@ function markPresent() {
         let li = document.createElement("li");
         li.textContent = "Today";
         document.getElementById("historyList").appendChild(li);
-        document.getElementById("days").innerText = Number(document.getElementById("days").innerText) + 1;
+        document.getElementById("days").innerText =
+          Number(document.getElementById("days").innerText) + 1;
       }
     });
 
@@ -146,87 +156,174 @@ function saveProfile() {
 
 // LOAD DOCUMENT ON BOARDING WHEN MEMBER BOARDS AFTER LOGIN.
 
+function logout() {
+  window.location.href = "/";
+}
+
 document.addEventListener("DOMContentLoaded", function () {
-  const memberId = window.location.pathname.split("/").pop();
+  memberId = window.location.pathname.split("/").pop();
 
   fetch(`http://127.0.0.1:5000/givedetail/${memberId}`)
     .then((res) => res.json())
     .then((data) => {
-      document.getElementById("welcomeMsg").innerHTML = `Welcome ${data[0]},`;
-      document.getElementById("name").innerHTML = data[0];
-      document.getElementById("phone").innerHTML = data[1];
-      document.getElementById("age").innerHTML = data[2];
-      document.getElementById("trainer").innerHTML = data[3];
-      document.getElementById("plan").innerHTML = data[4];
-      document.getElementById("days").innerHTML = data[5];
+      if (data[3]) {
+        // IF TRAINER IS SELECTED. THAT IS NOT A NEW SIGNED UP USER.
+        document.querySelector("body").classList.remove("AU_style");
+        document.getElementById("CompleteUser").classList.remove("hidden");
+        document.getElementById("AU_container").classList.add("hidden");
+
+        document.getElementById("welcomeMsg").innerHTML = `Welcome ${data[0]},`;
+        document.getElementById("name").innerHTML = data[0];
+        document.getElementById("phone").innerHTML = data[1];
+        document.getElementById("age").innerHTML = data[2];
+        document.getElementById("trainer").innerHTML = data[3];
+        document.getElementById("plan").innerHTML = data[4];
+        document.getElementById("days").innerHTML = data[5];
+      } else {
+        document.getElementById("CompleteUser").classList.add("hidden");
+        document.getElementById("AU_container").classList.remove("hidden");
+        document.querySelector("body").classList.add("AU_style");
+        document.getElementById("AU_memberName").innerText = data[0];
+        LoadPlansTrainersPayments();
+      }
     });
 });
 
+let LoadPTMdata;
 
-function logout() {
-    window.location.href = "/";
+function LoadPlansTrainersPayments() {
+  let template = document.querySelector(".AU_trainerCard");
+  let parent = document.getElementById("AU_trainerContainer");
+
+  fetch(`http://127.0.0.1:5000/LoadPTM`)
+    .then((res) => res.json())
+    .then((data) => {
+      LoadPTMdata = data;
+      for (let trainer of data[0]) {
+        const card = template.cloneNode(true); // ✅ clone
+
+        card.id = trainer.trainer_id;
+        card.querySelector("h3").innerText = trainer.name;
+        card.querySelector("p").innerText = trainer.specialization;
+
+        card.classList.remove("hidden");
+        parent.appendChild(card);
+      }
+
+      template = document.querySelector(".AU_PlanCard");
+      parent = document.getElementById("AU_planContainer");
+
+      for (let plan of data[1]) {
+        const card = template.cloneNode(true); // ✅ clone
+
+        card.id = plan.plan_id;
+        card.querySelector("h3").innerText = plan.type;
+        card.querySelector("p").innerText = plan.price;
+
+        card.classList.remove("hidden");
+        parent.appendChild(card);
+      }
+    });
 }
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   console.log("page");
-//   fetch("http://127.0.0.1:5000/onboard")
-//     .then((res) => res.json())
-//     .then((data) => {
-//       document.getElementById("name").innerHTML = data[0];
-//       document.getElementById("phone").innerHTML = data[1];
-//       document.getElementById("age").innerHTML = data[2];
-//       document.getElementById("trainer").innerHTML = data[3];
-//       document.getElementById("plan").innerHTML = data[4];
-//       document.getElementById("days").innerHTML = data[5];
-//     });
-// });
+function AU_selectTrainer(card) {
+  document.querySelectorAll("#AU_trainerContainer .AU_card").forEach((c) => {
+    if (c != card) {
+      c.classList.remove("AU_selected");
+    }
+  });
 
-// // PROFILE
-// document.getElementById("editBtn").addEventListener("click", () => {
-//   fetch("http://127.0.0.1:5000/profile")
-//     .then((res) => res.json())
-//     .then((data) => console.log(data));
-// });
+  card.classList.toggle("AU_selected");
+  if (card.classList[2] == "AU_selected") {
+    AU_selectedTrainer = card.id;
+  } else AU_selectedTrainer = null;
+  AU_checkProceed();
+}
 
-// // WORKOUT
-// document.getElementById("planBtn").addEventListener("click", () => {
-//   fetch("http://127.0.0.1:5000/workout")
-//     .then((res) => res.json())
-//     .then((data) => {
-//       let plans = data[0];
-//       let list = plans.exercises.split(","); // convert to array
+function AU_selectPlan(card) {
+  document.querySelectorAll("#AU_planContainer .AU_card").forEach((c) => {
+    if (c != card) {
+      c.classList.remove("AU_selected");
+    }
+  });
 
-//       let html = "";
+  card.classList.toggle("AU_selected");
 
-//       list.forEach((item) => {
-//         html += `<p>${item.trim()}</p>`;
-//       });
+  if (card.classList[2] == "AU_selected") {
+    AU_selectedPlan = card.id;
+  } else AU_selectedPlan = null;
+  AU_checkProceed();
+}
 
-//       document.getElementById("workout").innerHTML = html;
-//     });
-// });
+function AU_checkProceed() {
+  if (AU_selectedTrainer != null && AU_selectedPlan != null) {
+    document.getElementById("AU_proceedBtn").classList.remove("AU_hidden");
+  } else {
+    document.getElementById("AU_proceedBtn").classList.add("AU_hidden");
+    document.getElementById("AU_proceedBtn").classList.remove("AU_selected");
+  }
+}
 
-// // ATTENDANCE
-// document.getElementById("attendanceBtn").addEventListener("click", () => {
-//   fetch("http://127.0.0.1:5000/attendance")
-//     .then((res) => res.json())
-//     .then((data) => {
-//       document.getElementById("days").innerText = data.days + " days";
-//     });
-// });
+function AU_showPayment() {
+  // hide sections
+  document
+    .querySelectorAll(".AU_section")
+    .forEach((sec) => (sec.style.display = "none"));
 
-// // PAYMENTS
-// document.getElementById("paymentBtn").addEventListener("click", () => {
-//   fetch("http://127.0.0.1:5000/payments")
-//     .then((res) => res.json())
-//     .then((data) => {
-//       console.log(data);
+  document.getElementById("AU_proceedBtn").style.display = "none";
 
-//       for (i in data) {
-//         let temp = data[i];
-//         let element = document.createElement("p");
-//         element = `₹${temp.amount} - ${temp.date.slice(0, 16)} - ${temp.status}`;
-//         document.getElementById("paymentList").append(element);
-//       }
-//     });
-// });
+  // change heading
+  document.querySelector("h1").innerText = "Make Payment";
+
+  // show payment section
+  document.getElementById("AU_paymentSection").classList.remove("AU_hidden");
+
+  function getID() {
+    document.querySelectorAll(".AU_selected").forEach((card) => {
+      if (card.parentElement.id === "AU_trainerContainer") {
+        trainerID = card.id;
+      } else {
+        planID = card.id;
+      }
+    });
+  }
+
+  getID();
+
+  for (let e of LoadPTMdata[1]) {
+    if (e.plan_id == planID) {
+      price = e.price;
+      document.getElementById("AU_amount").placeholder = price;
+      document.getElementById("AU_amount").placeholder = price;
+      document.getElementById("AU_amount").disabled = true;
+    }
+  }
+}
+
+function AU_makePayment() {
+
+  const rawDate = new Date();
+  const todayDate = rawDate.toLocaleDateString("en-CA");
+
+  const data = {
+    member: memberId,
+    trainer: trainerID,
+    plan: planID,
+    amount: price,
+    date: todayDate
+  };
+  console.log(data);
+
+  fetch("http://127.0.0.1:5000/makePayment", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      window.location.href = data.url;
+      alert("Payment Successful!");
+    })
+}

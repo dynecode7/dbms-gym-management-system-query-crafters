@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 body {
@@ -14,14 +14,44 @@ body {
   color: #e2e8f0;
 }
 
+.gymName{
+  font-size: 6rem;
+  font-style: italic;
+  color: #38bdf8;
+  letter-spacing: -4%;
+  line-height: 100%;
+}
+#gymTag{
+  font-weight: 400;
+  font-size: 2rem;
+  letter-spacing: -4%;
+  line-height: 150%;
+}
+#gym {
+  width: 40%; /* left side */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items:start;
+  
+}
+
 /* Container */
 .container {
   width: 100%;
-  max-width: 380px;
+  height: 100vh;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  color: #e2e8f0;
+  gap: 10%;
+  padding: 5%;
 }
 
 /* Card */
 .card {
+  width: 30%;
+  height: auto;
   background: #1e293b;
   padding: 30px 25px;
   border-radius: 16px;
@@ -42,9 +72,10 @@ h2 {
 }
 
 /* Inputs */
-input, select {
+input,
+select {
   width: 100%;
-  height: 3.5rem;
+  height: 3rem;
   padding: 12px;
   margin: 0.8rem 0;
   border-radius: 8px;
@@ -54,7 +85,8 @@ input, select {
   transition: 0.2s;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
   outline: none;
   border-color: #38bdf8;
   box-shadow: 0 0 8px #38bdf8;
@@ -63,7 +95,7 @@ input:focus, select:focus {
 /* Button */
 button {
   width: 100%;
-  height: 3rem;
+  height: 2.5rem;
   padding: 12px;
   margin-top: 1rem;
   border-radius: 8px;
@@ -76,12 +108,13 @@ button {
 }
 
 button:hover {
-  background: #0ea5e9;
+  background: #ff8c42;
   transform: translateY(-1px);
 }
 
 /* Toggle text */
-.toggleT, .toggleM {
+.toggleT,
+.toggleM {
   text-align: center;
   margin-top: 1.5rem;
   font-size: 14px;
@@ -110,11 +143,12 @@ button:hover {
   }
 }
 
-#signUpTrainer, #loginTrainer{
-  background: #2A1A12;
+#signUpTrainer,
+#loginTrainer {
+  background: #2a1a12;
 }
 
-.selectInput{
+.selectInput {
   border: 1px solid #6c603a;
   background: #3a2d18;
   color: #e2e8f0;
@@ -123,13 +157,13 @@ button:hover {
 .selectInput:focus {
   outline: none;
   border-color: #f8db38;
-  box-shadow: 0 0 8px #FFA559
-;
+  box-shadow: 0 0 8px #ffa559;
 }
-.trainerButton{
-  background-color: #FF8C42;
+.trainerButton {
+  background-color: #ff8c42;
 }
-.TrainerBody{
+.TrainerBody {
   /* background: linear-gradient(135deg, #2a260f, #171402); */
-  background: linear-gradient(135deg, #1A0F0A, #171402);
+  background: linear-gradient(135deg, #1a0f0a, #171402);
 }
+

@@ -10,14 +10,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   </head>
 
-  <body>
-    <div class="container">
+  <body class="AU_style">
+
+    <div class="container" id="CompleteUser">
       <aside class="sidebar">
         <h2>ENVGym</h2>
         <ul>
-          <li onclick="showTab('home')">Home</li>
-          <li onclick="showTab('attendance')">Attendance</li>
-          <li onclick="showTab('profile')">My Profile</li>
+          <li id="sidebar_home" onclick="showTab('home')">Home</li>
+          <li id="sidebar_attendance" onclick="showTab('attendance')">Attendance</li>
+          <li id="sidebar_profile" onclick="showTab('profile')">My Profile</li>
         </ul>
       </aside>
 
@@ -25,7 +26,7 @@
         <!-- HOME -->
         <section id="home" class="tab">
           <div id="welcomeUser">
-            <h2 id="welcomeMsg"></h2>
+            <h1 id="welcomeMsg"></h1>
             <h1 id="workoutPlan">Today's Workout Plan</h1>
           </div>
           
@@ -97,6 +98,50 @@
            <button onclick="editProfile()">Edit Profile</button>
         </section>
       </main>
+    </div>
+
+    <div class="AU_container hidden" id="AU_container">
+
+      <h1>Welcome <span id="AU_memberName">Aditya</span> 👋</h1>
+
+      <!-- Trainer Section -->
+      <div class="AU_section">
+          <h2>Select Your Trainer</h2>
+          <div class="AU_card-container" id="AU_trainerContainer">
+
+              <div class="AU_card AU_trainerCard hidden" id="" onclick="AU_selectTrainer(this)">
+                  <h3></h3>
+                  <p></p>
+                  <button>Select</button>
+              </div>
+
+          </div>
+      </div>
+
+      <!-- Plan Section -->
+      <div class="AU_section">
+          <h2>Select Your Plan</h2>
+          <div class="AU_card-container" id="AU_planContainer">
+
+              <div class="AU_card AU_PlanCard hidden" id="" onclick="AU_selectPlan(this)">
+                  <h3></h3>
+                  <p></p>
+                  <button>Select</button>
+              </div>
+
+          </div>
+      </div>
+
+    <!-- Proceed Button -->
+    <button id="AU_proceedBtn" class="AU_hidden" onclick="AU_showPayment()">Proceed to Payment</button>
+
+    <!-- Payment Section -->
+    <div id="AU_paymentSection" class="AU_hidden">
+        <h2>Payment</h2>
+        <input type="number" id="AU_amount" placeholder="Enter amount">
+        <button onclick="AU_makePayment()">Pay</button>
+    </div>
+
     </div>
 
     <script src="{{ url_for('static', filename='member/script.js') }}"></script>

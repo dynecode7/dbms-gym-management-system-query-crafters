@@ -1,5 +1,6 @@
 
 from flask import Flask, render_template, jsonify, redirect, url_for, request, session
+from datetime import date
 import mysql.connector
 import os
 
@@ -16,7 +17,7 @@ def get_db():
         database="envgym_db"
 )
 
-def onboarding(mid):
+def getMemberData(mid):
     L = []
     conn = get_db()
     cursor = conn.cursor(dictionary=True)
@@ -54,14 +55,36 @@ def onboarding(mid):
 
 def TraineeDetails(tid):
     L = []
+    L2=[]
     conn = get_db()
     cursor = conn.cursor(dictionary=True)
     
     cursor.execute("SELECT m.member_id, m.name, m.age, p.type FROM member m JOIN membershipplan p ON m.plan_id = p.plan_id WHERE m.trainer_id = %s", (tid,))
     L = cursor.fetchall()
+    L2.append(L)
     # print(L)
+
+    cursor.execute("""
+    SELECT 
+        SUM(
+            CASE 
+                WHEN mp.type = 'Monthly' THEN mp.price * 0.30
+                WHEN mp.type = 'Quarterly' THEN mp.price * 0.50
+                WHEN mp.type = 'Yearly' THEN mp.price * 0.60
+            END
+        ) AS total_trainer_earning
+    FROM member m
+    JOIN membershipplan mp ON m.plan_id = mp.plan_id
+    WHERE m.trainer_id = %s
+    """, (tid,))
+    result = cursor.fetchone()
+    earning = float(result['total_trainer_earning'])
+    
+    L2.append(earning)
+    
+    print(L2)
     conn.close()
-    return L
+    return L2
     
 
 
@@ -73,26 +96,31 @@ def auth_page():
 
 @app.route('/signup', methods=['POST'])
 def signup():
+
     data = request.get_json()
+
     name = data['name']
     age = data['age']
     gender = data['gender']
     phone = data['phone']
     password = data['password']
 
+    today_date = date.today().strftime('%Y-%m-%d')
+    print(today_date)
+
     # insert into DB
     conn = get_db()
     cursor = conn.cursor(dictionary=True)
     cursor.execute(
-        "INSERT INTO member (name, age, gender, phone, password) VALUES (%s, %s, %s, %s, %s)",
-        (name, age, gender, phone, password)
+        "INSERT INTO member (name, age, gender, phone, password,join_date) VALUES (%s, %s, %s, %s, %s, %s)",
+        (name, age, gender, phone, password, today_date)
     )
     conn.commit()
 
     # get last inserted id
     member_id = cursor.lastrowid
 
-    return redirect(url_for('dashboard', member_id=member_id))
+    return redirect(url_for('auth_page'))
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -116,13 +144,29 @@ def login():
     else:
         return jsonify({"error": "Invalid credentials"}), 401
 
+@app.route('/LoadPTM')
+def LoadPlansTrainersPayments():
+    L = []
+    conn = get_db()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT name, trainer_id, specialization FROM trainer")
+    data = cursor.fetchall()
+    L.append(data)
+
+    cursor.execute("SELECT type, plan_id, price FROM membershipplan")
+    data = cursor.fetchall()
+    L.append(data)
+    
+    return jsonify(L)
+
 @app.route('/home/<int:member_id>')
 def dashboard(member_id):
     return render_template('member/index.html')
-
+    
 @app.route('/givedetail/<int:member_id>')
 def give_detail(member_id):
-    data = onboarding(member_id)
+    data = getMemberData(member_id)
     return jsonify(data)
 
 @app.route('/giveInfo/<int:member_id>/<string:info_type>')
@@ -206,6 +250,24 @@ def markPresent(member_id):
     return jsonify({"message": "Updated successfully"})
 
 
+@app.route('/makePayment', methods=['POST'])
+def makePayment():
+    
+    data = request.get_json()
+    conn = get_db()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute(
+       "UPDATE member SET trainer_id = %s, plan_id = %s WHERE member_id = %s",
+        (data['trainer'], data['plan'], data['member'])
+    )
+    conn.commit()
+    cursor.execute(
+        "INSERT INTO payment (member_id, amount, date, status) VALUES (%s, %s, %s, 'Paid')",
+        (data['member'], data['amount'], data['date'])
+    )
+    conn.commit()
+    return jsonify({"url": url_for('dashboard', member_id=data['member'])
+})
 
 # ----------------------------------------- TRAINER _______ ROUTES ---------------------------------------------
 
@@ -276,7 +338,7 @@ def TrainerOnboarding(trainer_id):
     cursor.execute("SELECT name, specialization from trainer where trainer_id = %s", (trainer_id,))
     profileDetail = cursor.fetchone()
 
-    allDetails = [profileDetail['name'], profileDetail['specialization'], traineeList]
+    allDetails = [profileDetail['name'], profileDetail['specialization'], traineeList[0], traineeList[1]]
     # print(allDetails)
     return jsonify(allDetails)
 
