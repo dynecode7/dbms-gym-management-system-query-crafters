@@ -88,15 +88,16 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch(`http://127.0.0.1:5000/trainer/givedetails/${trainerId}`)
     .then((res) => res.json())
     .then((data) => {
-      console.log("starting to add");
 
       document.getElementById("welcomeMsg").innerHTML = `${data[0]}`;
       document.getElementById("trainer_name").innerHTML = data[0];
       document.getElementById("specs").innerHTML =
         `Specialization In ${data[1]}`;
 
-      for (let member of data[2]) {
-        
+      if(data[2].length > 0){
+        console.log(data[2]);
+        for (let member of data[2]) {
+        document.getElementById("traineeMsg").innerText = "Your Trainees, ";
         const card = template.cloneNode(true); // ✅ clone
 
         card.querySelector(".name").innerText = member.name;
@@ -110,7 +111,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         homeSection.appendChild(card);
         
+        }
       }
+      else{
+        document.getElementById("traineeMsg").innerText = "No Trainees Assigned, ";
+      }
+      
       document.getElementById("money").innerText = `₹ ${data[3]}`;
     });
 });

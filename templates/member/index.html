@@ -45,7 +45,7 @@
           </div>
 
           <div class="card2">
-            <h3 onclick="toggle('exerciseList')">Today's Exercises&nbsp; &nbsp;▼ </h3>
+            <h3 onclick="toggle('exerciseList')">Your Exercises&nbsp; &nbsp;▼ </h3>
             <ul id="exerciseList" class="hidden">
               
             </ul>
@@ -100,7 +100,7 @@
       </main>
     </div>
 
-    <div class="AU_container hidden" id="AU_container">
+    <div class="AU_container" id="AU_container">
 
       <h1>Welcome <span id="AU_memberName">Aditya</span> 👋</h1>
 
@@ -132,15 +132,15 @@
           </div>
       </div>
 
-    <!-- Proceed Button -->
-    <button id="AU_proceedBtn" class="AU_hidden" onclick="AU_showPayment()">Proceed to Payment</button>
+      <!-- Proceed Button -->
+      <button id="AU_proceedBtn" class="AU_hidden" onclick="AU_showPayment()">Proceed to Payment</button>
 
-    <!-- Payment Section -->
-    <div id="AU_paymentSection" class="AU_hidden">
-        <h2>Payment</h2>
-        <input type="number" id="AU_amount" placeholder="Enter amount">
-        <button onclick="AU_makePayment()">Pay</button>
-    </div>
+      <!-- Payment Section -->
+      <div id="AU_paymentSection" class="AU_hidden">
+          <h2>Payment</h2>
+          <input type="number" id="AU_amount" placeholder="Enter amount">
+          <button onclick="AU_makePayment()">Pay</button>
+      </div>
 
     </div>
 

@@ -78,8 +78,9 @@ def TraineeDetails(tid):
     WHERE m.trainer_id = %s
     """, (tid,))
     result = cursor.fetchone()
-    earning = float(result['total_trainer_earning'])
-    
+    if(result['total_trainer_earning']):
+        earning = float(result['total_trainer_earning'])
+    else: earning = 0
     L2.append(earning)
     
     print(L2)
@@ -297,7 +298,6 @@ def Trainerlogin():
     else:
         return jsonify({"error": "Invalid credentials"}), 401
 
-
 @app.route('/trainer/signup', methods=['POST'])
 def Trainersignup():
 
@@ -361,13 +361,13 @@ def assignWorkoutToMember(member_id):
     )
     existing = cursor.fetchone()
     if existing:
-        return jsonify({"message": "Plan already assigned for today", "status":0})
+        return jsonify({"message": "Exercise already assigned for today", "status":0})
 
     cursor.execute(
         "INSERT INTO workoutplan (member_id, trainer_id, exercises, date) VALUES (%s,(SELECT trainer_id FROM member WHERE member_id = %s), %s, %s)", (mid, mid, exercises,date)
     )
     conn.commit()
-    return jsonify({"message": "Assined Plan successfully", "status": 1})
+    return jsonify({"message": "Assined Exercise successfully", "status": 1})
 
 
 

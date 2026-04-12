@@ -170,8 +170,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // IF TRAINER IS SELECTED. THAT IS NOT A NEW SIGNED UP USER.
         document.querySelector("body").classList.remove("AU_style");
         document.getElementById("CompleteUser").classList.remove("hidden");
-        document.getElementById("AU_container").classList.add("hidden");
-
+        document.getElementById("AU_container").classList.add("AU_hidden");
+        
         document.getElementById("welcomeMsg").innerHTML = `Welcome ${data[0]},`;
         document.getElementById("name").innerHTML = data[0];
         document.getElementById("phone").innerHTML = data[1];
@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("days").innerHTML = data[5];
       } else {
         document.getElementById("CompleteUser").classList.add("hidden");
-        document.getElementById("AU_container").classList.remove("hidden");
+        document.getElementById("AU_container").classList.remove("AU_hidden");
         document.querySelector("body").classList.add("AU_style");
         document.getElementById("AU_memberName").innerText = data[0];
         LoadPlansTrainersPayments();
