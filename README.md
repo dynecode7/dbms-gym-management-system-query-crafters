@@ -71,7 +71,7 @@ To design and implement a relational database system that:
 - View attendance history
 - View total days present
 
-####  Profile Management
+#### - Profile Management
 
 - View personal details (Name, Age, Phone)
 - Edit profile information
