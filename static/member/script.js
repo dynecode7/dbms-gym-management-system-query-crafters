@@ -5,9 +5,9 @@ let trainerID, planID, price;
 let memberId;
 
 function showTab(id) {
-  document.querySelectorAll(".sidebar li").forEach(li => 
-    li.classList.remove("sidebar_li_selected")
-  );
+  document
+    .querySelectorAll(".sidebar li")
+    .forEach((li) => li.classList.remove("sidebar_li_selected"));
   document.getElementById(`sidebar_${id}`).classList.add("sidebar_li_selected");
 
   document.querySelectorAll(".tab").forEach((t) => t.classList.add("hidden"));
@@ -31,7 +31,7 @@ function toggle(id) {
 
         for (plan of data) {
           const li = document.createElement("li");
-          let content = `${plan.exercises} -------- ${plan.date.slice(5, 16)}`;
+          let content = `${plan.exercises} - ( ${plan.date.slice(5, 16)} )`;
 
           let d = new Date(plan.date);
           const formatted = d.toISOString().split("T")[0];
@@ -72,7 +72,7 @@ function toggle(id) {
           const amt = data[ex]["amount"];
           const day = data[ex]["date"].slice(5, 16);
           const li = document.createElement("li");
-          li.textContent = `₹${amt} ------ ${day}`;
+          li.textContent = `₹${amt} - ( ${day} )`;
           list.appendChild(li);
         }
       });
@@ -161,7 +161,12 @@ function logout() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+
   memberId = window.location.pathname.split("/").pop();
+
+  const rawDate = new Date();
+  const todayDate = rawDate.toLocaleDateString("en-CA");
+  console.log(todayDate);
 
   fetch(`http://127.0.0.1:5000/givedetail/${memberId}`)
     .then((res) => res.json())
@@ -171,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("body").classList.remove("AU_style");
         document.getElementById("CompleteUser").classList.remove("hidden");
         document.getElementById("AU_container").classList.add("AU_hidden");
-        
+
         document.getElementById("welcomeMsg").innerHTML = `Welcome ${data[0]},`;
         document.getElementById("name").innerHTML = data[0];
         document.getElementById("phone").innerHTML = data[1];
@@ -179,7 +184,28 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("trainer").innerHTML = data[3];
         document.getElementById("plan").innerHTML = data[4];
         document.getElementById("days").innerHTML = data[5];
-      } else {
+
+        let dateStr = data[6];
+        let date = new Date(dateStr);
+        let formatted = date.toISOString().split("T")[0];
+
+        console.log(formatted); // 2026-04-01
+
+        let d1 = new Date(todayDate)
+        let d2 = new Date(formatted);
+
+        let diff = (d1 - d2) / (1000 * 60 * 60 * 24);
+
+        console.log(diff); // 14
+        
+        if(diff>0){
+          if(data[4]=="Monthly") document.getElementById("expiry").innerText = `${30-diff} days`;
+          else if(data[4]=="Quarterly") document.getElementById("expiry").innerText = `${90-diff} days`;
+          else if(data[4]=="Yearly") document.getElementById("expiry").innerText = `${365-diff} days`;
+          else document.getElementById("expiry").innerText = "Invalid Subscription";
+        }
+        
+        } else {
         document.getElementById("CompleteUser").classList.add("hidden");
         document.getElementById("AU_container").classList.remove("AU_hidden");
         document.querySelector("body").classList.add("AU_style");
@@ -301,7 +327,6 @@ function AU_showPayment() {
 }
 
 function AU_makePayment() {
-
   const rawDate = new Date();
   const todayDate = rawDate.toLocaleDateString("en-CA");
 
@@ -310,7 +335,7 @@ function AU_makePayment() {
     trainer: trainerID,
     plan: planID,
     amount: price,
-    date: todayDate
+    date: todayDate,
   };
   console.log(data);
 
@@ -325,5 +350,5 @@ function AU_makePayment() {
     .then((data) => {
       window.location.href = data.url;
       alert("Payment Successful!");
-    })
+    });
 }

@@ -22,13 +22,13 @@ def getMemberData(mid):
     conn = get_db()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT name, phone, age FROM member WHERE member_id=%s", (mid,))
+    cursor.execute("SELECT name, phone, age, join_date FROM member WHERE member_id=%s", (mid,))
     data = cursor.fetchall()
     
     L.append(data[0]["name"])
     L.append(data[0]["phone"])
     L.append(data[0]["age"])
-
+    exp_date = data[0]["join_date"]
     cursor.execute("SELECT name FROM trainer WHERE trainer_id = (SELECT trainer_id FROM member WHERE member_id=%s)", (mid,))
     data = cursor.fetchall()
     if(data):
@@ -50,6 +50,7 @@ def getMemberData(mid):
     data = cursor.fetchone()
     L.append(data["days"])
 
+    L.append(exp_date)
     conn.close()
     return L
 
