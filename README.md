@@ -1,9 +1,9 @@
-# 🏋️ Gym Management System (DBMS Project)
+# Gym Management System (DBMS Project)
 **Developed by:** Query Crafters
 
 ---
 
-## 📌 Project Overview
+## Project Overview
 
 This project is a Gym Membership and Workout Tracking System, a database-driven web application designed to efficiently manage gym operations including members, trainers, workout plans, attendance, and payments.
 
@@ -15,7 +15,7 @@ The system provides a centralized platform where:
 
 ---
 
-## 🎯 Objective
+## Objective
 
 To design and implement a relational database system that:
 
@@ -25,7 +25,7 @@ To design and implement a relational database system that:
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - Backend: Python Flask
 - Database: MySQL
@@ -33,9 +33,9 @@ To design and implement a relational database system that:
 
 ---
 
-## 🧩 Database Design
+## Database Design
 
-### 🔹 Main Entities
+### - Main Entities
 
 - Member
 - Trainer
@@ -44,7 +44,7 @@ To design and implement a relational database system that:
 - Payment
 - Workout Plan
 
-### 🔹 Relationships
+### - Relationships
 
 - A Member is assigned to one Trainer
 - A Member selects one Membership Plan
@@ -55,22 +55,23 @@ To design and implement a relational database system that:
 
 ---
 
-## ⚙️ Features
+##  Features
 
-### 👤 Member Side
+### Member Side
 
-#### 🏠 Home Dashboard
+#### - Home Dashboard
 
 - View assigned trainer and membership plan
 - View today’s workout assigned by trainer
+- View days of membership expirty
 
-#### 📅 Attendance System
+#### - Attendance System
 
 - Mark attendance (restricted to once per day)
 - View attendance history
 - View total days present
 
-#### 👤 Profile Management
+####  Profile Management
 
 - View personal details (Name, Age, Phone)
 - Edit profile information
@@ -79,16 +80,16 @@ To design and implement a relational database system that:
 
 ---
 
-### 🏋️ Trainer Side
+### Trainer Side
 
-#### 🏠 Home Dashboard
+#### - Home Dashboard
 
 - View all assigned trainees
 - Assign exercises (multiple selection supported)
 - Trainers assign exercises to members
 - Updates reflect instantly in member dashboard
 
-#### 👤 Profile
+#### - Profile
 
 - View name and specialization
 - View total earnings (calculated dynamically based on membership plans):
@@ -101,14 +102,14 @@ To design and implement a relational database system that:
 
 ---
 
-## 🔐 Authentication System
+## Authentication System
 
-### 🔑 Login
+### - Login
 
 - Separate login for Members and Trainers
 - Login using Phone Number and Password
 
-### 📝 Signup
+### - Signup
 
 - Member Signup:
   - Name, Age, Phone, Gender, Password
@@ -118,7 +119,7 @@ To design and implement a relational database system that:
 
 ---
 
-## 🗄️ SQL Operations Implemented
+## SQL Operations Implemented
 
 - SELECT – Fetch member details, workouts, attendance, payments
 - INSERT – Add members, trainers, attendance, payments, workout plans
@@ -129,7 +130,7 @@ To design and implement a relational database system that:
 
 ---
 
-## 🧠 Business Logic Implemented
+## Business Logic Implemented
 
 - Attendance can only be marked once per day
 - Trainer earnings calculated based on membership plans
@@ -137,7 +138,7 @@ To design and implement a relational database system that:
 
 ---
 
-## 🖥️ User Interface
+## User Interface
 
 A simple and functional web interface was developed to:
 
@@ -147,7 +148,7 @@ A simple and functional web interface was developed to:
 
 ---
 
-## 🧪 Testing
+## Testing
 
 The system was tested to ensure:
 
@@ -158,7 +159,7 @@ The system was tested to ensure:
 
 ---
 
-## 📄 Documentation
+## Documentation
 
 - ER Diagram
 - Schema Design
@@ -167,7 +168,7 @@ The system was tested to ensure:
 
 ---
 
-## 🚀 Conclusion
+## Conclusion
 
 This project successfully demonstrates the implementation of a real-world database system using MySQL integrated with a web application.
 
@@ -179,12 +180,11 @@ It highlights:
 
 ---
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 - Online payment integration
 - Diet plan and BMI tracking
 - Batch/Session scheduling
-- Alerts for membership expiry
 - Advanced analytics and reports
 - Search and filter functionality
 - Improved UI/UX design
